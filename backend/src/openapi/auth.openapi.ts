@@ -23,7 +23,7 @@ const AuthSuccessSchema = z
 registry.registerPath({
   method: 'post',
   path: '/auth/register',
-  summary: 'Register a new user',
+  summary: 'Daftar pengguna baru',
   tags: ['Auth'],
   request: {
     body: {
@@ -36,7 +36,7 @@ registry.registerPath({
   },
   responses: {
     201: {
-      description: 'User registered successfully',
+      description: 'Pengguna berhasil terdaftar',
       content: {
         'application/json': {
           schema: DataResponseSchema(AuthSuccessSchema, 'RegisterResponse'),
@@ -48,7 +48,7 @@ registry.registerPath({
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
     409: {
-      description: 'Email already registered',
+      description: 'Email sudah terdaftar',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
   },
@@ -57,7 +57,7 @@ registry.registerPath({
 registry.registerPath({
   method: 'post',
   path: '/auth/login',
-  summary: 'Log in',
+  summary: 'Masuk',
   tags: ['Auth'],
   request: {
     body: {
@@ -70,7 +70,7 @@ registry.registerPath({
   },
   responses: {
     200: {
-      description: 'Login successful',
+      description: 'Berhasil masuk',
       content: {
         'application/json': {
           schema: DataResponseSchema(AuthSuccessSchema, 'LoginResponse'),
@@ -82,7 +82,7 @@ registry.registerPath({
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
     401: {
-      description: 'Invalid credentials',
+      description: 'Kredensial tidak valid',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
   },
@@ -91,12 +91,12 @@ registry.registerPath({
 registry.registerPath({
   method: 'get',
   path: '/auth/me',
-  summary: 'Get current user profile',
+  summary: 'Profil pengguna saat ini',
   tags: ['Auth'],
   security: [{ bearerAuth: [] }],
   responses: {
     200: {
-      description: 'Current user profile',
+      description: 'Profil pengguna saat ini',
       content: {
         'application/json': {
           schema: DataResponseSchema(

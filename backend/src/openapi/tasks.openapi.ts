@@ -33,7 +33,7 @@ const bearer = [{ bearerAuth: [] as string[] }];
 registry.registerPath({
   method: 'post',
   path: '/tasks',
-  summary: 'Create a task (TEACHER only)',
+  summary: 'Buat tugas (khusus GURU)',
   tags: ['Tasks'],
   security: bearer,
   request: {
@@ -47,7 +47,7 @@ registry.registerPath({
   },
   responses: {
     201: {
-      description: 'Task created',
+      description: 'Tugas berhasil dibuat',
       content: {
         'application/json': {
           schema: DataResponseSchema(TaskSchema, 'CreateTaskResponse'),
@@ -55,15 +55,15 @@ registry.registerPath({
       },
     },
     400: {
-      description: 'Validation error',
+      description: 'Kesalahan validasi',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
     401: {
-      description: 'Unauthorized',
+      description: 'Tidak terautentikasi',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
     403: {
-      description: 'Forbidden',
+      description: 'Tidak memiliki akses',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
   },
@@ -72,7 +72,7 @@ registry.registerPath({
 registry.registerPath({
   method: 'get',
   path: '/tasks',
-  summary: 'List tasks',
+  summary: 'Daftar tugas',
   tags: ['Tasks'],
   security: bearer,
   request: {
@@ -80,7 +80,7 @@ registry.registerPath({
   },
   responses: {
     200: {
-      description: 'List of tasks',
+      description: 'Daftar tugas',
       content: {
         'application/json': {
           schema: DataResponseSchema(z.array(TaskSchema), 'ListTasksResponse'),
@@ -88,11 +88,11 @@ registry.registerPath({
       },
     },
     400: {
-      description: 'Validation error',
+      description: 'Kesalahan validasi',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
     401: {
-      description: 'Unauthorized',
+      description: 'Tidak terautentikasi',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
   },
@@ -101,7 +101,7 @@ registry.registerPath({
 registry.registerPath({
   method: 'get',
   path: '/tasks/{id}',
-  summary: 'Get task by ID',
+  summary: 'Detail tugas berdasarkan ID',
   tags: ['Tasks'],
   security: bearer,
   request: {
@@ -109,25 +109,25 @@ registry.registerPath({
   },
   responses: {
     200: {
-      description: 'Task details',
+      description: 'Detail tugas',
       content: {
         'application/json': { schema: DataResponseSchema(TaskSchema, 'GetTaskResponse') },
       },
     },
     400: {
-      description: 'Validation error',
+      description: 'Kesalahan validasi',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
     401: {
-      description: 'Unauthorized',
+      description: 'Tidak terautentikasi',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
     403: {
-      description: 'Forbidden',
+      description: 'Tidak memiliki akses',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
     404: {
-      description: 'Task not found',
+      description: 'Tugas tidak ditemukan',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
   },
@@ -136,7 +136,7 @@ registry.registerPath({
 registry.registerPath({
   method: 'put',
   path: '/tasks/{id}',
-  summary: 'Update a task (TEACHER owner only)',
+  summary: 'Perbarui tugas (khusus pemilik GURU)',
   tags: ['Tasks'],
   security: bearer,
   request: {
@@ -151,25 +151,25 @@ registry.registerPath({
   },
   responses: {
     200: {
-      description: 'Task updated',
+      description: 'Tugas berhasil diperbarui',
       content: {
         'application/json': { schema: DataResponseSchema(TaskSchema, 'UpdateTaskResponse') },
       },
     },
     400: {
-      description: 'Validation error',
+      description: 'Kesalahan validasi',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
     401: {
-      description: 'Unauthorized',
+      description: 'Tidak terautentikasi',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
     403: {
-      description: 'Forbidden',
+      description: 'Tidak memiliki akses',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
     404: {
-      description: 'Task not found',
+      description: 'Tugas tidak ditemukan',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
   },
@@ -178,28 +178,28 @@ registry.registerPath({
 registry.registerPath({
   method: 'delete',
   path: '/tasks/{id}',
-  summary: 'Delete a task (TEACHER owner only)',
+  summary: 'Hapus tugas (khusus pemilik GURU)',
   tags: ['Tasks'],
   security: bearer,
   request: {
     params: taskParamsSchema.openapi('TaskParams'),
   },
   responses: {
-    204: { description: 'Task deleted' },
+    204: { description: 'Tugas berhasil dihapus' },
     400: {
-      description: 'Validation error',
+      description: 'Kesalahan validasi',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
     401: {
-      description: 'Unauthorized',
+      description: 'Tidak terautentikasi',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
     403: {
-      description: 'Forbidden',
+      description: 'Tidak memiliki akses',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
     404: {
-      description: 'Task not found',
+      description: 'Tugas tidak ditemukan',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
   },
@@ -208,28 +208,28 @@ registry.registerPath({
 registry.registerPath({
   method: 'post',
   path: '/tasks/{id}/complete',
-  summary: 'Mark task as complete (STUDENT only)',
+  summary: 'Tandai tugas selesai (khusus SISWA)',
   tags: ['Tasks'],
   security: bearer,
   request: {
     params: taskParamsSchema.openapi('TaskParams'),
   },
   responses: {
-    204: { description: 'Marked as complete' },
+    204: { description: 'Tugas ditandai selesai' },
     400: {
-      description: 'Validation error',
+      description: 'Kesalahan validasi',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
     401: {
-      description: 'Unauthorized',
+      description: 'Tidak terautentikasi',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
     403: {
-      description: 'Forbidden',
+      description: 'Tidak memiliki akses',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
     404: {
-      description: 'Task not found',
+      description: 'Tugas tidak ditemukan',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
   },
@@ -238,28 +238,28 @@ registry.registerPath({
 registry.registerPath({
   method: 'delete',
   path: '/tasks/{id}/complete',
-  summary: 'Undo task completion (STUDENT only)',
+  summary: 'Batalkan penyelesaian tugas (khusus SISWA)',
   tags: ['Tasks'],
   security: bearer,
   request: {
     params: taskParamsSchema.openapi('TaskParams'),
   },
   responses: {
-    204: { description: 'Completion undone' },
+    204: { description: 'Penyelesaian tugas dibatalkan' },
     400: {
-      description: 'Validation error',
+      description: 'Kesalahan validasi',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
     401: {
-      description: 'Unauthorized',
+      description: 'Tidak terautentikasi',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
     403: {
-      description: 'Forbidden',
+      description: 'Tidak memiliki akses',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
     404: {
-      description: 'Task not found',
+      description: 'Tugas tidak ditemukan',
       content: { 'application/json': { schema: ErrorResponseSchema } },
     },
   },
