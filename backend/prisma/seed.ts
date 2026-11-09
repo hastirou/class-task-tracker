@@ -22,14 +22,39 @@ const students = [
 ];
 
 const taskData = [
-  { title: 'Matematika X-A 1', description: 'Kerjakan latihan halaman 12', dueOffsetDays: -1, className: 'X-A' },
-  { title: 'Bahasa Indonesia X-A', description: 'Tulis resensi', dueOffsetDays: 1, className: 'X-A' },
+  {
+    title: 'Matematika X-A 1',
+    description: 'Kerjakan latihan halaman 12',
+    dueOffsetDays: -1,
+    className: 'X-A',
+  },
+  {
+    title: 'Bahasa Indonesia X-A',
+    description: 'Tulis resensi',
+    dueOffsetDays: 1,
+    className: 'X-A',
+  },
   { title: 'IPA X-A', description: 'Ringkas bab 3', dueOffsetDays: 7, className: 'X-A' },
-  { title: 'Matematika X-A 2', description: 'Latihan soal ujian', dueOffsetDays: -4, className: 'X-A' },
+  {
+    title: 'Matematika X-A 2',
+    description: 'Latihan soal ujian',
+    dueOffsetDays: -4,
+    className: 'X-A',
+  },
   { title: 'Fisika X-A', description: 'Laporan praktikum', dueOffsetDays: 7, className: 'X-A' },
 
-  { title: 'Matematika X-B 1', description: 'Kerjakan latihan halaman 15', dueOffsetDays: -1, className: 'X-B' },
-  { title: 'Bahasa Inggris X-B', description: 'Hafalkan kosakata', dueOffsetDays: 1, className: 'X-B' },
+  {
+    title: 'Matematika X-B 1',
+    description: 'Kerjakan latihan halaman 15',
+    dueOffsetDays: -1,
+    className: 'X-B',
+  },
+  {
+    title: 'Bahasa Inggris X-B',
+    description: 'Hafalkan kosakata',
+    dueOffsetDays: 1,
+    className: 'X-B',
+  },
   { title: 'Kimia X-B', description: 'Tulis reaksi', dueOffsetDays: 7, className: 'X-B' },
   { title: 'Sejarah X-B', description: 'Timeline peristiwa', dueOffsetDays: -4, className: 'X-B' },
   { title: 'Seni Budaya X-B', description: 'Gambar poster', dueOffsetDays: 7, className: 'X-B' },
