@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
+    "build": "tsc && node scripts/copy-generated.js",
     "start": "node --experimental-specifier-resolution=node dist/server.js",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
