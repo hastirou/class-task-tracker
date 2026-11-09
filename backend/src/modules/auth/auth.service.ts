@@ -28,9 +28,16 @@ export interface AuthResult {
   token: string;
 }
 
-const createToken = (user: AuthUser): string => jwt.sign(user, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRES_IN as never });
+const createToken = (user: AuthUser): string =>
+  jwt.sign(user, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRES_IN as never });
 
-const userWithoutPassword = (user: { id: string; name: string; email: string; role: string; className?: string | null }) => ({
+const userWithoutPassword = (user: {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  className?: string | null;
+}) => ({
   id: user.id,
   name: user.name,
   email: user.email,
@@ -62,7 +69,7 @@ export const register = async (input: RegisterInput): Promise<AuthResult> => {
       email: normalizedEmail,
       passwordHash: await hashPassword(input.password),
       role: input.role,
-      className: input.role === STUDENT_ROLE ? input.className?.trim() ?? null : null,
+      className: input.role === STUDENT_ROLE ? (input.className?.trim() ?? null) : null,
     },
   });
 

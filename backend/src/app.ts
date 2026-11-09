@@ -3,7 +3,7 @@ import express, { type Request, type Response, type NextFunction } from 'express
 import helmet from 'helmet';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
-import swaggerUi from 'swagger-ui-express';
+import * as scalarApiReference from '@scalar/express-api-reference';
 import pinoHttp from 'pino-http';
 import { env } from './config/env.js';
 import { errorHandler } from './middleware/errorHandler.js';
@@ -44,7 +44,13 @@ app.get('/api/openapi.json', (_req: Request, res: Response) => {
   res.json(openApiDocument);
 });
 
-app.use(['/docs', '/api/docs'], swaggerUi.serve, swaggerUi.setup(openApiDocument));
+app.use(
+  ['/docs', '/api/docs'],
+  scalarApiReference.apiReference({
+    spec: { content: openApiDocument },
+    theme: 'purple',
+  }),
+);
 
 app.use('/api/v1/auth', authLimiter, authRoutes);
 app.use('/api/v1/tasks', tasksRoutes);
