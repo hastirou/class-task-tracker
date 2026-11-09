@@ -8,7 +8,7 @@ const envSchema = z.object({
   PORT: z.string().transform(Number).pipe(z.number().int().min(1).max(65535)).default('3000'),
   DATABASE_URL: z.string().min(1),
   JWT_SECRET: z.string().min(32),
-    JWT_EXPIRES_IN: z.string().default('1d'),
+  JWT_EXPIRES_IN: z.string().default('1d'),
   CORS_ORIGIN: z.string().default('http://localhost:5173'),
   TEACHER_REGISTRATION_CODE: z.string().min(1),
   SERVE_FRONTEND: z

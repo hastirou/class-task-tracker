@@ -1,5 +1,10 @@
 import { prisma } from '../../db/prisma.js';
-import { ForbiddenError, NotFoundError, UnauthorizedError, ValidationError } from '../../utils/errors.js';
+import {
+  ForbiddenError,
+  NotFoundError,
+  UnauthorizedError,
+  ValidationError,
+} from '../../utils/errors.js';
 import type { AuthUser } from '../../middleware/auth.js';
 
 export interface TaskInput {
@@ -69,7 +74,10 @@ interface RawTask {
   completions: { completedAt: Date | null }[];
 }
 
-const mapTaskWithCompletion = (task: RawTask, status?: 'done' | 'pending'): TaskWithStatus | null => {
+const mapTaskWithCompletion = (
+  task: RawTask,
+  status?: 'done' | 'pending',
+): TaskWithStatus | null => {
   const completion = task.completions[0];
   const completed = Boolean(completion);
   const completedAt = completion?.completedAt ?? null;
@@ -195,7 +203,11 @@ export const getById = async (id: string, user: AuthUser): Promise<TaskWithStatu
   return { ...task, completed: Boolean(completion), completedAt: completion?.completedAt ?? null };
 };
 
-export const update = async (id: string, input: TaskUpdateInput, user: AuthUser): Promise<TaskWithStatus> => {
+export const update = async (
+  id: string,
+  input: TaskUpdateInput,
+  user: AuthUser,
+): Promise<TaskWithStatus> => {
   if (user.role !== 'TEACHER') {
     throw UnauthorizedError();
   }

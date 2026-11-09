@@ -37,7 +37,7 @@ model Task {
   updatedAt   DateTime @updatedAt
 
   createdBy  User             @relation("UserTasks", fields: [createdById], references: [id], onDelete: Cascade)
-  completion TaskCompletion[]
+  completions TaskCompletion[]
 
   @@index([className, dueDate])
   @@index([title])

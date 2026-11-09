@@ -14,12 +14,10 @@ import { openApiDocument } from './openapi/document.js';
 
 export const app = express();
 
-app.use(
-  (req: Request, res: Response, next: NextFunction) => {
-    const isDocs = req.path === '/api/docs' || req.path.startsWith('/api/docs/');
-    helmet(isDocs ? { contentSecurityPolicy: false } : {})(req, res, next);
-  },
-);
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const isDocs = req.path === '/api/docs' || req.path.startsWith('/api/docs/');
+  helmet(isDocs ? { contentSecurityPolicy: false } : {})(req, res, next);
+});
 
 app.use(cors({ origin: env.CORS_ORIGIN }));
 app.use(express.json({ limit: '10kb' }));

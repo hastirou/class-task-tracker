@@ -54,9 +54,18 @@ registry.registerPath({
         },
       },
     },
-    400: { description: 'Validation error', content: { 'application/json': { schema: ErrorResponseSchema } } },
-    401: { description: 'Unauthorized', content: { 'application/json': { schema: ErrorResponseSchema } } },
-    403: { description: 'Forbidden', content: { 'application/json': { schema: ErrorResponseSchema } } },
+    400: {
+      description: 'Validation error',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+    401: {
+      description: 'Unauthorized',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+    403: {
+      description: 'Forbidden',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
   },
 });
 
@@ -78,8 +87,14 @@ registry.registerPath({
         },
       },
     },
-    400: { description: 'Validation error', content: { 'application/json': { schema: ErrorResponseSchema } } },
-    401: { description: 'Unauthorized', content: { 'application/json': { schema: ErrorResponseSchema } } },
+    400: {
+      description: 'Validation error',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+    401: {
+      description: 'Unauthorized',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
   },
 });
 
@@ -95,12 +110,26 @@ registry.registerPath({
   responses: {
     200: {
       description: 'Task details',
-      content: { 'application/json': { schema: DataResponseSchema(TaskSchema, 'GetTaskResponse') } },
+      content: {
+        'application/json': { schema: DataResponseSchema(TaskSchema, 'GetTaskResponse') },
+      },
     },
-    400: { description: 'Validation error', content: { 'application/json': { schema: ErrorResponseSchema } } },
-    401: { description: 'Unauthorized', content: { 'application/json': { schema: ErrorResponseSchema } } },
-    403: { description: 'Forbidden', content: { 'application/json': { schema: ErrorResponseSchema } } },
-    404: { description: 'Task not found', content: { 'application/json': { schema: ErrorResponseSchema } } },
+    400: {
+      description: 'Validation error',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+    401: {
+      description: 'Unauthorized',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+    403: {
+      description: 'Forbidden',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+    404: {
+      description: 'Task not found',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
   },
 });
 
@@ -123,12 +152,26 @@ registry.registerPath({
   responses: {
     200: {
       description: 'Task updated',
-      content: { 'application/json': { schema: DataResponseSchema(TaskSchema, 'UpdateTaskResponse') } },
+      content: {
+        'application/json': { schema: DataResponseSchema(TaskSchema, 'UpdateTaskResponse') },
+      },
     },
-    400: { description: 'Validation error', content: { 'application/json': { schema: ErrorResponseSchema } } },
-    401: { description: 'Unauthorized', content: { 'application/json': { schema: ErrorResponseSchema } } },
-    403: { description: 'Forbidden', content: { 'application/json': { schema: ErrorResponseSchema } } },
-    404: { description: 'Task not found', content: { 'application/json': { schema: ErrorResponseSchema } } },
+    400: {
+      description: 'Validation error',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+    401: {
+      description: 'Unauthorized',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+    403: {
+      description: 'Forbidden',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+    404: {
+      description: 'Task not found',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
   },
 });
 
@@ -143,10 +186,22 @@ registry.registerPath({
   },
   responses: {
     204: { description: 'Task deleted' },
-    400: { description: 'Validation error', content: { 'application/json': { schema: ErrorResponseSchema } } },
-    401: { description: 'Unauthorized', content: { 'application/json': { schema: ErrorResponseSchema } } },
-    403: { description: 'Forbidden', content: { 'application/json': { schema: ErrorResponseSchema } } },
-    404: { description: 'Task not found', content: { 'application/json': { schema: ErrorResponseSchema } } },
+    400: {
+      description: 'Validation error',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+    401: {
+      description: 'Unauthorized',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+    403: {
+      description: 'Forbidden',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+    404: {
+      description: 'Task not found',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
   },
 });
 
@@ -161,10 +216,22 @@ registry.registerPath({
   },
   responses: {
     204: { description: 'Marked as complete' },
-    400: { description: 'Validation error', content: { 'application/json': { schema: ErrorResponseSchema } } },
-    401: { description: 'Unauthorized', content: { 'application/json': { schema: ErrorResponseSchema } } },
-    403: { description: 'Forbidden', content: { 'application/json': { schema: ErrorResponseSchema } } },
-    404: { description: 'Task not found', content: { 'application/json': { schema: ErrorResponseSchema } } },
+    400: {
+      description: 'Validation error',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+    401: {
+      description: 'Unauthorized',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+    403: {
+      description: 'Forbidden',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+    404: {
+      description: 'Task not found',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
   },
 });
 
@@ -179,9 +246,21 @@ registry.registerPath({
   },
   responses: {
     204: { description: 'Completion undone' },
-    400: { description: 'Validation error', content: { 'application/json': { schema: ErrorResponseSchema } } },
-    401: { description: 'Unauthorized', content: { 'application/json': { schema: ErrorResponseSchema } } },
-    403: { description: 'Forbidden', content: { 'application/json': { schema: ErrorResponseSchema } } },
-    404: { description: 'Task not found', content: { 'application/json': { schema: ErrorResponseSchema } } },
+    400: {
+      description: 'Validation error',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+    401: {
+      description: 'Unauthorized',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+    403: {
+      description: 'Forbidden',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+    404: {
+      description: 'Task not found',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
   },
 });
