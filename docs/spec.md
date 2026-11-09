@@ -1,4 +1,4 @@
-> Last verified: 2026-11-09 against commit b47c395
+> Last verified: 2026-11-09 against commit 80dcde2
 
 # Spec: Class Task Tracker
 
@@ -103,19 +103,23 @@ JWT_SECRET=ganti-dengan-string-acak-minimal-32-karakter
 JWT_EXPIRES_IN=1d
 CORS_ORIGIN=http://localhost:5173
 TEACHER_REGISTRATION_CODE=ganti-kode-guru
+DEFAULT_PW_GURU=ganti-password-guru-minimal-8-karakter
+DEFAULT_PW_SISWA=ganti-password-siswa-minimal-8-karakter
 SERVE_FRONTEND=false
 ```
 
 `DATABASE_URL` memakai port `5433` di contoh lokal untuk menghindari bentrok dengan PostgreSQL yang mungkin sudah berjalan di `5432`; `sslmode=disable` karena container dev tidak memakai TLS. Sesuaikan nilai sesuai lingkungan Anda.
+
+`DEFAULT_PW_GURU` dan `DEFAULT_PW_SISWA` hanya dipakai seeder (bagian 9) sebagai password akun contoh guru dan siswa; divalidasi Zod di `config/env.ts` dengan panjang 8–100 karakter (disamakan dengan aturan password saat registrasi).
 
 `SERVE_FRONTEND=true` (diset di Docker): Express menyajikan `frontend/dist` sebagai file statis dan mengembalikan `index.html` untuk route non-`/api` (SPA fallback). Route `/api/*` yang tidak dikenal tetap mengembalikan 404 JSON.
 
 ## 9. Seeder
 
 `npm run db:seed` di `backend/` (idempoten, harus bisa dijalankan juga di dalam container):
-- Guru: `guru@example.com` / `***REMOVED***`
-- Siswa kelas `X-A`: `siswa1@example.com`, `siswa2@example.com` / `***REMOVED***`
-- Siswa kelas `X-B`: `siswa3@example.com` / `***REMOVED***`
+- Guru: `guru@example.com` / password dari `DEFAULT_PW_GURU`
+- Siswa kelas `X-A`: `siswa1@example.com`, `siswa2@example.com` / password dari `DEFAULT_PW_SISWA`
+- Siswa kelas `X-B`: `siswa3@example.com` / password dari `DEFAULT_PW_SISWA`
 - Sekitar 12 tugas campuran X-A dan X-B (sebagian lewat tenggat); beberapa sudah ditandai selesai oleh siswa1.
 
 ## 10. Test minimal (backend)

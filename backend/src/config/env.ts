@@ -11,6 +11,8 @@ const envSchema = z.object({
   JWT_EXPIRES_IN: z.string().default('1d'),
   CORS_ORIGIN: z.string().default('http://localhost:5173'),
   TEACHER_REGISTRATION_CODE: z.string().min(1),
+  DEFAULT_PW_GURU: z.string().min(8).max(100),
+  DEFAULT_PW_SISWA: z.string().min(8).max(100),
   SERVE_FRONTEND: z
     .enum(['true', 'false'])
     .transform((v) => v === 'true')

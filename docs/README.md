@@ -1,4 +1,4 @@
-> Last verified: 2026-11-09 against commit ab747f0
+> Last verified: 2026-11-09 against commit 80dcde2
 
 # class-task-tracker
 
@@ -58,7 +58,7 @@ docker compose up -d db
 # 2. Backend (http://localhost:3000)
 cd backend
 npm install
-cp .env.example .env          # isi JWT_SECRET dan TEACHER_REGISTRATION_CODE
+cp .env.example .env          # isi JWT_SECRET, TEACHER_REGISTRATION_CODE, DEFAULT_PW_GURU, DEFAULT_PW_SISWA
 npm run db:generate
 npm run db:migrate:dev        # memakai prisma/prisma.config.ts lewat script
 npm run db:seed

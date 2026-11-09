@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: '.env' });
 
+import { env } from '../src/config/env.js';
 import { prisma } from '../src/db/prisma.js';
 import { hashPassword } from '../src/utils/password.js';
 
@@ -11,14 +12,14 @@ const STUDENT_ROLE = 'STUDENT' as const;
 const teacher = {
   name: 'Guru',
   email: 'guru@example.com',
-  password: '***REMOVED***',
+  password: env.DEFAULT_PW_GURU,
   role: TEACHER_ROLE,
 };
 
 const students = [
-  { name: 'Siswa 1', email: 'siswa1@example.com', password: '***REMOVED***', className: 'X-A' },
-  { name: 'Siswa 2', email: 'siswa2@example.com', password: '***REMOVED***', className: 'X-A' },
-  { name: 'Siswa 3', email: 'siswa3@example.com', password: '***REMOVED***', className: 'X-B' },
+  { name: 'Siswa 1', email: 'siswa1@example.com', password: env.DEFAULT_PW_SISWA, className: 'X-A' },
+  { name: 'Siswa 2', email: 'siswa2@example.com', password: env.DEFAULT_PW_SISWA, className: 'X-A' },
+  { name: 'Siswa 3', email: 'siswa3@example.com', password: env.DEFAULT_PW_SISWA, className: 'X-B' },
 ];
 
 const taskData = [

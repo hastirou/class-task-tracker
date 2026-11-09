@@ -17,7 +17,8 @@ docker compose up -d db
 # 2. Backend -> http://localhost:3000
 cd backend
 npm install
-cp .env.example .env   # isi JWT_SECRET (min. 32 karakter) dan TEACHER_REGISTRATION_CODE
+cp .env.example .env   # isi JWT_SECRET (min. 32 karakter), TEACHER_REGISTRATION_CODE,
+                       # DEFAULT_PW_GURU & DEFAULT_PW_SISWA (password akun contoh, min. 8 karakter)
 npm run db:generate    # generate Prisma client
 npm run db:migrate:dev # terapkan migrasi
 npm run db:seed        # data contoh (guru + siswa + tugas)
@@ -32,12 +33,15 @@ npm run dev
 Buka `http://localhost:5173`. Vite mem-proxy `/api` ke backend (`frontend/vite.config.ts`),
 jadi cukup satu origin di 5173 saat development.
 
-Setelah `npm run db:seed`, akun contoh siap dipakai:
+Setelah `npm run db:seed`, akun contoh siap dipakai. Passwordnya diambil dari `.env`
+(`DEFAULT_PW_GURU` dan `DEFAULT_PW_SISWA`), bukan hard-coded di seeder:
 
-- Guru: `guru@example.com` / `***REMOVED***`
-- Siswa: `siswa1@example.com`, `siswa2@example.com`, `siswa3@example.com` / `***REMOVED***`
+- Guru: `guru@example.com`
+- Siswa: `siswa1@example.com`, `siswa2@example.com`, `siswa3@example.com`
 
-(Registrasi guru baru lewat form membutuhkan `TEACHER_REGISTRATION_CODE` dari `.env`.)
+Ganti password tersebut di `.env` lalu jalankan ulang `npm run db:seed` untuk membuat
+akun dengan password baru. (Registrasi guru baru lewat form membutuhkan
+`TEACHER_REGISTRATION_CODE` dari `.env`.)
 
 Alternatif lain:
 
