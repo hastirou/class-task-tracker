@@ -28,7 +28,9 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   }
 
   if (isPrismaError(err) && err.code === 'P2002') {
-    const target = Array.isArray(err.meta?.target) ? (err.meta.target as string[]).join(', ') : 'field';
+    const target = Array.isArray(err.meta?.target)
+      ? (err.meta.target as string[]).join(', ')
+      : 'field';
     error(res, 409, 'CONFLICT', `${target} already exists`, { target: err.meta?.target });
     return;
   }
@@ -46,7 +48,9 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   console.error(err);
 
   if (env.NODE_ENV === 'development') {
-    error(res, 500, 'INTERNAL_ERROR', 'Internal server error', { reason: err instanceof Error ? err.message : String(err) });
+    error(res, 500, 'INTERNAL_ERROR', 'Internal server error', {
+      reason: err instanceof Error ? err.message : String(err),
+    });
     return;
   }
 

@@ -12,12 +12,23 @@ interface SuccessBody<T> {
   meta: ResponseMeta | Record<string, never>;
 }
 
-export const success = <T>(res: Response, data: T, meta: ResponseMeta | Record<string, never> = {}, status = 200) => {
+export const success = <T>(
+  res: Response,
+  data: T,
+  meta: ResponseMeta | Record<string, never> = {},
+  status = 200,
+) => {
   const body: SuccessBody<T> = { data, meta };
   res.status(status).json(body);
 };
 
-export const error = (res: Response, status: number, code: string, message: string, details?: unknown) => {
+export const error = (
+  res: Response,
+  status: number,
+  code: string,
+  message: string,
+  details?: unknown,
+) => {
   const body: { error: { code: string; message: string; details?: unknown } } = {
     error: {
       code,

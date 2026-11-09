@@ -1,26 +1,30 @@
 import type { Request, Response, NextFunction } from 'express';
 import type { ZodSchema, ZodError } from 'zod';
+import '../types/express.js';
 
 type Source = 'body' | 'query' | 'params';
 
-const extractSource = (req: Request, source: Source): Record<string, unknown> => {
-  if (source === 'params') return req.params;
-  if (source === 'query') return req.query;
-  return req.body as Record<string, unknown>;
+const keyForSource = (source: Source) => {
+  if (source === 'params') return 'validatedParams';
+  if (source === 'query') return 'validatedQuery';
+  return 'validatedBody';
 };
 
 export const validate = <T>(schema: ZodSchema<T>, source: Source = 'body') => {
   return (req: Request, _res: Response, next: NextFunction) => {
-    const result = schema.safeParse(extractSource(req, source));
+    const raw: unknown =
+      source === 'params' ? req.params : source === 'query' ? req.query : req.body;
+
+    const result = schema.safeParse(raw);
 
     if (!result.success) {
-      Object.assign(req, { zodError: result.error });
-      next(new Error('Validation failed'));
+      const err = new Error('Validation failed');
+      Object.assign(err, { name: 'ZodError', errors: result.error.errors, zodError: result.error });
+      next(err);
       return;
     }
 
-    const key = source === 'params' ? 'validatedParams' : source === 'query' ? 'validatedQuery' : 'validatedBody';
-    Object.assign(req, { [key]: result.data });
+    Object.assign(req, { [keyForSource(source)]: result.data });
     next();
   };
 };

@@ -6,12 +6,12 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js",
+    "start": "node --experimental-specifier-resolution=node dist/server.js",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "format": "prettier --write src",
     "test": "vitest run",
-    "db:generate": "prisma generate --config prisma/prisma.config.ts",
+    "db:generate": "prisma generate --config prisma/prisma.config.ts && tsx prisma/patch-client.ts",
     "db:migrate:dev": "prisma migrate dev --config prisma/prisma.config.ts",
     "db:migrate:deploy": "prisma migrate deploy --config prisma/prisma.config.ts",
     "db:seed": "tsx prisma/seed.ts"
