@@ -1,4 +1,4 @@
-> Last verified: 2026-11-09 against commit 945f990
+> Last verified: 2026-11-09 against commit b47c395
 
 # class-task-tracker
 
@@ -11,7 +11,7 @@ Aplikasi Manajemen Tugas Kelas. Guru membuat, mengubah, dan menghapus tugas; sis
 Backend (`backend/`):
 - Node.js 22 LTS, TypeScript (strict), ESM
 - Express 5: app di `src/app.ts`, listen di `src/server.ts`
-- PostgreSQL 16 + Prisma: akses data, migrasi, seeder
+- PostgreSQL 16 + Prisma 7: akses data, migrasi, seeder (`prisma.config.ts`)
 - Zod: validasi input dan env
 - JWT (`jsonwebtoken`) + `argon2`: autentikasi dan hash password
 - helmet, cors, express-rate-limit: keamanan HTTP
@@ -35,7 +35,7 @@ Infra: Docker + docker-compose (db + app).
 - `backend/src/modules/auth/`, `backend/src/modules/tasks/`: route, controller, service, schema
 - `backend/src/utils/`: AppError, asyncHandler, jwt, password
 - `backend/src/openapi/`: registry OpenAPI, pendaftaran tiap endpoint, pembuat dokumen
-- `backend/prisma/`: `schema.prisma`, `migrations/`, `seed.ts`
+- `backend/prisma/`: `schema.prisma`, `prisma.config.ts`, `migrations/`, `seed.ts`
 - `backend/tests/`: integration test
 - `frontend/src/api/`: wrapper fetch dan fungsi per endpoint
 - `frontend/src/stores/`: Pinia (auth, tasks)
@@ -59,6 +59,7 @@ docker compose up -d db
 cd backend
 npm install
 cp .env.example .env          # isi JWT_SECRET dan TEACHER_REGISTRATION_CODE
+npx prisma generate
 npx prisma migrate dev
 npm run db:seed
 npm run dev

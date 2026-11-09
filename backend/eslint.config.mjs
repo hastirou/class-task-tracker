@@ -6,14 +6,14 @@ export default [
   js.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   {
+    files: ['**/*.ts'],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        project: './tsconfig.json',
+        project: './tsconfig.eslint.json',
         sourceType: 'module',
       },
     },
-    files: ['**/*.ts'],
   },
   {
     rules: {

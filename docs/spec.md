@@ -1,4 +1,4 @@
-> Last verified: 2026-11-09 against commit 945f990
+> Last verified: 2026-11-09 against commit b47c395
 
 # Spec: Class Task Tracker
 
@@ -98,13 +98,15 @@ Status code: 200, 201, 204, 400, 401, 403, 404, 409, 429, 500.
 ```
 NODE_ENV=development
 PORT=3000
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/class_tasks
+DATABASE_URL=postgresql://postgres:postgres@localhost:5433/class_tasks?sslmode=disable
 JWT_SECRET=ganti-dengan-string-acak-minimal-32-karakter
 JWT_EXPIRES_IN=1d
 CORS_ORIGIN=http://localhost:5173
 TEACHER_REGISTRATION_CODE=ganti-kode-guru
 SERVE_FRONTEND=false
 ```
+
+`DATABASE_URL` memakai port `5433` di contoh lokal untuk menghindari bentrok dengan PostgreSQL yang mungkin sudah berjalan di `5432`; `sslmode=disable` karena container dev tidak memakai TLS. Sesuaikan nilai sesuai lingkungan Anda.
 
 `SERVE_FRONTEND=true` (diset di Docker): Express menyajikan `frontend/dist` sebagai file statis dan mengembalikan `index.html` untuk route non-`/api` (SPA fallback). Route `/api/*` yang tidak dikenal tetap mengembalikan 404 JSON.
 
