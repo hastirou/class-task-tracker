@@ -1,4 +1,4 @@
-> Last verified: (isi saat commit pertama) against commit (hash)
+> Last verified: 2026-11-09 against commit 945f990
 
 # Rules
 
@@ -24,6 +24,7 @@ Setiap doc diawali `> Last verified: YYYY-MM-DD against commit <hash>`. Cocokkan
 - Setelah tiap fase: jalankan lint dan build pada folder yang disentuh (dan `npm test` di `backend/` bila menyentuh backend), commit, lalu berhenti dan laporkan.
 - Jangan menambah fitur di luar `docs/spec.md`. Jika ada keputusan yang tidak tercakup, berhenti dan tanya, jangan menebak.
 - Perubahan pada schema, env, auth, script, atau arsitektur harus memperbarui doc terkait dan baris "Last verified" dalam commit yang sama.
+- Skema Zod adalah satu-satunya sumber untuk validasi dan dokumentasi OpenAPI. Setiap endpoint baru atau yang diubah wajib didaftarkan/diperbarui di `backend/src/openapi/` dalam commit yang sama. Dilarang menulis spesifikasi OpenAPI manual yang terpisah dari skema Zod.
 - Jika suatu alasan tidak bisa dipastikan dari kode/config/git, tulis `Rationale tidak terdokumentasi (konfirmasi ke pemilik repo)`, jangan mengarang.
 
 ## Security constraints
@@ -45,4 +46,4 @@ Setiap doc diawali `> Last verified: YYYY-MM-DD against commit <hash>`. Cocokkan
 ## Not present
 
 - Tidak ada integrasi pihak ketiga, CI/CD, atau deployment di luar `Dockerfile` + `docker-compose.yml`.
-- Nilai tambah hanya dua: test minimal tiga endpoint, dan Docker. Tidak ada OpenAPI, tampilan responsif khusus, atau notifikasi tenggat.
+- Nilai tambah yang dikerjakan: test minimal tiga endpoint, Docker, dan dokumentasi OpenAPI. Tidak ada tampilan responsif khusus atau notifikasi tenggat.

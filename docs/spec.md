@@ -1,4 +1,4 @@
-> Last verified: (isi saat commit pertama) against commit (hash)
+> Last verified: 2026-11-09 against commit 945f990
 
 # Spec: Class Task Tracker
 
@@ -11,7 +11,7 @@
 5. REST API dengan validasi input dan respons error konsisten.
 6. Frontend web yang berfungsi untuk semua alur di atas, dengan pesan error dan status loading yang jelas.
 7. Database PostgreSQL, migrasi, seeder.
-8. Nilai tambah (hanya dua): test minimal tiga endpoint, Docker/docker-compose.
+8. Test endpoint wajib, Docker/docker-compose, dokumentasi API OpenAPI.
 
 ## 2. Model data
 
@@ -30,6 +30,7 @@ Index: `Task(className, dueDate)`, `Task(title)`.
 - Pesan login gagal generik, tidak membedakan email tidak ada vs password salah.
 - Satu repo dua folder mandiri (bukan monorepo workspace). Di Docker, Express menyajikan hasil build Vue sehingga satu origin dan tanpa CORS; saat development Vite memakai proxy `/api`.
 - Token JWT disimpan di `localStorage` agar sesi bertahan saat refresh. Konsekuensinya rentan jika ada XSS; mitigasi: tidak ada `v-html`, helmet di server. Catat di README sebagai hal yang bisa diperbaiki (cookie httpOnly).
+- Dokumentasi API dibuat dari skema Zod yang sama dengan validasi (`@asteasolutions/zod-to-openapi`), sehingga dokumentasi dan perilaku tidak bisa menyimpang.
 
 ## 4. Endpoint
 
@@ -48,6 +49,13 @@ Prefix `/api/v1`.
 | POST | /tasks/:id/complete | STUDENT | tandai selesai (idempoten) |
 | DELETE | /tasks/:id/complete | STUDENT | batalkan tanda selesai |
 | GET | /health | publik | cek hidup |
+
+Di luar prefix `/api/v1` (publik):
+
+| Method | Path | Keterangan |
+|---|---|---|
+| GET | /api/docs | Swagger UI |
+| GET | /api/openapi.json | dokumen OpenAPI 3 |
 
 Aturan tambahan:
 - `GET /tasks` untuk siswa menyertakan `isCompleted` per tugas.
@@ -72,8 +80,20 @@ Status code: 200, 201, 204, 400, 401, 403, 404, 409, 429, 500.
 - JWT: secret dari env (min. 32 karakter), kedaluwarsa default 1 hari, payload hanya `sub` dan `role`.
 - Body ditolak jika punya field tak dikenal (`.strict()`); batas ukuran body 10kb.
 - CORS dibatasi ke `CORS_ORIGIN`; rate limit pada `/auth/*`.
+- Swagger UI membutuhkan inline script/style. Longgarkan CSP helmet **hanya** untuk path `/api/docs`; CSP ketat tetap berlaku untuk route lain.
 
-## 7. Env (`backend/.env.example`)
+## 7. Dokumentasi API (OpenAPI)
+
+- Library: `@asteasolutions/zod-to-openapi` (versi yang kompatibel dengan versi Zod yang dipakai) dan `swagger-ui-express`.
+- Struktur `backend/src/openapi/`: `registry.ts` (OpenAPIRegistry, komponen bersama), satu file pendaftaran per modul (`auth.ts`, `tasks.ts`), `document.ts` (membuat dokumen OpenAPI 3.x).
+- Skema Zod di `modules/*/schema.ts` dipakai ganda: validasi runtime dan sumber dokumentasi. Tidak ada spesifikasi manual yang terpisah.
+- Wajib terdokumentasi untuk setiap endpoint di bagian 4: ringkasan, request (body/query/params), semua respons yang mungkin (sukses dan error 400/401/403/404/409 sesuai kasus) memakai format bagian 5.
+- Komponen bersama: skema `ErrorResponse`, `Pagination meta`, dan security scheme `bearerAuth` (JWT). Endpoint terproteksi menandai `security: [{ bearerAuth: [] }]` sehingga bisa dicoba lewat tombol Authorize di Swagger UI.
+- Dokumen dibuat sekali saat start dan disajikan di `/api/openapi.json`; Swagger UI di `/api/docs`.
+- Dengan `SERVE_FRONTEND=true`, `/api/docs` dan `/api/openapi.json` tetap dilayani backend, bukan SPA fallback.
+- Satu test memverifikasi bahwa `/api/openapi.json` valid (memiliki `openapi`, `paths`, dan semua path di bagian 4).
+
+## 8. Env (`backend/.env.example`)
 
 ```
 NODE_ENV=development
@@ -88,7 +108,7 @@ SERVE_FRONTEND=false
 
 `SERVE_FRONTEND=true` (diset di Docker): Express menyajikan `frontend/dist` sebagai file statis dan mengembalikan `index.html` untuk route non-`/api` (SPA fallback). Route `/api/*` yang tidak dikenal tetap mengembalikan 404 JSON.
 
-## 8. Seeder
+## 9. Seeder
 
 `npm run db:seed` di `backend/` (idempoten, harus bisa dijalankan juga di dalam container):
 - Guru: `guru@example.com` / `***REMOVED***`
@@ -96,13 +116,14 @@ SERVE_FRONTEND=false
 - Siswa kelas `X-B`: `siswa3@example.com` / `***REMOVED***`
 - Sekitar 12 tugas campuran X-A dan X-B (sebagian lewat tenggat); beberapa sudah ditandai selesai oleh siswa1.
 
-## 9. Test minimal (backend)
+## 10. Test minimal (backend)
 
 1. `POST /auth/login`: sukses dan gagal (401).
 2. `POST /tasks`: guru 201; siswa 403; tanpa token 401; input invalid 400.
 3. `POST /tasks/:id/complete`: siswa sukses dan idempoten; guru 403.
+4. `GET /api/openapi.json`: dokumen valid dan mencakup semua path di bagian 4.
 
-## 10. Frontend
+## 11. Frontend
 
 Halaman dan perilaku:
 - `/login`, `/register`: form dengan validasi sisi klien sederhana; pesan error dari API (termasuk `details` per field) ditampilkan jelas. Register: pilihan role; siswa mengisi kelas, guru mengisi kode guru.
@@ -116,9 +137,9 @@ Halaman dan perilaku:
 - Wajib ada untuk setiap tampilan yang memanggil API: status **loading** (tombol nonaktif/spinner saat submit, skeleton/teks saat memuat daftar), status **error** (pesan jelas + tombol coba lagi), dan status **kosong** (pesan saat tidak ada tugas).
 - Format tenggat ditampilkan dalam zona waktu lokal; tugas lewat tenggat diberi penanda.
 
-Vite dev: proxy `/api` ke `http://localhost:3000`. Frontend memakai URL relatif `/api/v1`, tanpa base URL hard-coded.
+Vite dev: proxy `/api` ke `http://localhost:3000` (termasuk `/api/docs`). Frontend memakai URL relatif `/api/v1`, tanpa base URL hard-coded.
 
-## 11. Fase kerja (satu commit per langkah)
+## 12. Fase kerja (satu commit per langkah)
 
 Backend:
 1. Setup `backend/`: npm, TypeScript, ESLint, Prettier, struktur folder, `.gitignore`, `.env.example`, `config/env.ts`, `GET /health`.
@@ -128,22 +149,24 @@ Backend:
 5. Tasks (guru): create, update, delete dengan cek kepemilikan.
 6. Tasks (baca): list dengan search, filter status, pagination; detail; scoping kelas siswa.
 7. Completion: complete dan uncomplete.
-8. Test: tiga endpoint di bagian 9.
+8. OpenAPI: registry, pendaftaran semua endpoint dari skema Zod, `/api/openapi.json`, Swagger UI di `/api/docs` (CSP dilonggarkan hanya untuk path itu).
+9. Test: empat kasus di bagian 10.
 
 Frontend:
-9. Setup `frontend/`: Vite + Vue + TypeScript, ESLint, Prettier, Router, Pinia, proxy `/api`, wrapper API, komponen loading/error.
-10. Auth UI: login, register, store auth, guard, navbar, logout.
-11. Daftar tugas: list, pencarian, filter, paginasi, sinkron URL, status loading/error/kosong.
-12. Aksi siswa: tandai selesai dan batalkan.
-13. Aksi guru: form tambah/ubah, hapus dengan konfirmasi.
+10. Setup `frontend/`: Vite + Vue + TypeScript, ESLint, Prettier, Router, Pinia, proxy `/api`, wrapper API, komponen loading/error.
+11. Auth UI: login, register, store auth, guard, navbar, logout.
+12. Daftar tugas: list, pencarian, filter, paginasi, sinkron URL, status loading/error/kosong.
+13. Aksi siswa: tandai selesai dan batalkan.
+14. Aksi guru: form tambah/ubah, hapus dengan konfirmasi.
 
 Penutup:
-14. Docker: `Dockerfile` multi-stage di root (build frontend, build backend, runtime menyajikan `frontend/dist` dengan `SERVE_FRONTEND=true`), `docker-compose.yml` (db + app, `prisma migrate deploy` otomatis saat start, `env_file: backend/.env` dengan `DATABASE_URL` ditimpa ke host `db`), `.dockerignore`.
-15. README root: langkah dari nol (dev dan Docker), akun contoh, daftar endpoint, keputusan desain, bagian yang belum selesai (jujur), plus perbarui `docs/README.md`.
+15. Docker: `Dockerfile` multi-stage di root (build frontend, build backend, runtime menyajikan `frontend/dist` dengan `SERVE_FRONTEND=true`), `docker-compose.yml` (db + app, `prisma migrate deploy` otomatis saat start, `env_file: backend/.env` dengan `DATABASE_URL` ditimpa ke host `db`), `.dockerignore`.
+16. README root: langkah dari nol (dev dan Docker), akun contoh, daftar endpoint (plus tautan `/api/docs`), keputusan desain, bagian yang belum selesai (jujur), plus perbarui `docs/README.md`.
 
-## 12. Definition of Done
+## 13. Definition of Done
 
 - `docker compose up --build` lalu seed menghasilkan aplikasi yang bisa dipakai penuh di http://localhost:3000.
-- Semua endpoint berfungsi dengan format respons bagian 5; semua alur UI bagian 10 berfungsi.
+- Semua endpoint berfungsi dengan format respons bagian 5; semua alur UI bagian 11 berfungsi.
+- `/api/docs` menampilkan semua endpoint bagian 4 dan bisa mencoba endpoint terproteksi lewat Authorize.
 - Test backend lulus; lint dan build bersih di `backend/` dan `frontend/`.
 - Riwayat git bertahap, tanpa `.env` asli atau secret.

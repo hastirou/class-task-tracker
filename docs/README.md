@@ -1,4 +1,4 @@
-> Last verified: (isi saat commit pertama) against commit (hash)
+> Last verified: 2026-11-09 against commit 945f990
 
 # class-task-tracker
 
@@ -16,6 +16,7 @@ Backend (`backend/`):
 - JWT (`jsonwebtoken`) + `argon2`: autentikasi dan hash password
 - helmet, cors, express-rate-limit: keamanan HTTP
 - Vitest + Supertest: test
+- `@asteasolutions/zod-to-openapi` + `swagger-ui-express`: dokumentasi OpenAPI dibuat dari skema Zod yang sama dengan validasi
 - ESLint + Prettier
 
 Frontend (`frontend/`):
@@ -33,6 +34,7 @@ Infra: Docker + docker-compose (db + app).
 - `backend/src/middleware/`: authenticate, requireRole, validate, errorHandler, notFound
 - `backend/src/modules/auth/`, `backend/src/modules/tasks/`: route, controller, service, schema
 - `backend/src/utils/`: AppError, asyncHandler, jwt, password
+- `backend/src/openapi/`: registry OpenAPI, pendaftaran tiap endpoint, pembuat dokumen
 - `backend/prisma/`: `schema.prisma`, `migrations/`, `seed.ts`
 - `backend/tests/`: integration test
 - `frontend/src/api/`: wrapper fetch dan fungsi per endpoint
@@ -75,6 +77,8 @@ docker compose exec app npm run db:seed
 ```
 
 Test backend: `cd backend && npm test`.
+
+Dokumentasi API: Swagger UI di `http://localhost:3000/api/docs`, dokumen mentah di `http://localhost:3000/api/openapi.json`.
 
 (Bagian ini diperbarui oleh agent saat script benar-benar ada.)
 
