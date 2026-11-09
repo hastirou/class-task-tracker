@@ -12,10 +12,10 @@ export const useAuthStore = defineStore('auth', () => {
   const isStudent = computed(() => user.value?.role === 'STUDENT');
 
   const login = async (email: string, password: string): Promise<void> => {
-    const res = await api.post<AuthResponse>('/auth/login', { email, password });
-    token.value = res.token;
-    user.value = res.user;
-    setToken(res.token);
+    const res = await api.post<{ data: AuthResponse }>('/auth/login', { email, password });
+    token.value = res.data.token;
+    user.value = res.data.user;
+    setToken(res.data.token);
   };
 
   const register = async (input: {
@@ -26,15 +26,15 @@ export const useAuthStore = defineStore('auth', () => {
     className?: string;
     teacherCode?: string;
   }): Promise<void> => {
-    const res = await api.post<AuthResponse>('/auth/register', input);
-    token.value = res.token;
-    user.value = res.user;
-    setToken(res.token);
+    const res = await api.post<{ data: AuthResponse }>('/auth/register', input);
+    token.value = res.data.token;
+    user.value = res.data.user;
+    setToken(res.data.token);
   };
 
   const fetchMe = async (): Promise<void> => {
-    const res = await api.get<{ user: AuthUser }>('/auth/me');
-    user.value = res.user;
+    const res = await api.get<{ data: { user: AuthUser } }>('/auth/me');
+    user.value = res.data.user;
   };
 
   const logout = (): void => {
