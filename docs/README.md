@@ -1,4 +1,4 @@
-> Last verified: 2026-11-09 against commit b47c395
+> Last verified: 2026-11-09 against commit ab747f0
 
 # class-task-tracker
 
@@ -16,7 +16,7 @@ Backend (`backend/`):
 - JWT (`jsonwebtoken`) + `argon2`: autentikasi dan hash password
 - helmet, cors, express-rate-limit: keamanan HTTP
 - Vitest + Supertest: test
-- `@asteasolutions/zod-to-openapi` + `swagger-ui-express`: dokumentasi OpenAPI dibuat dari skema Zod yang sama dengan validasi
+- `@asteasolutions/zod-to-openapi` + `@scalar/express-api-reference`: dokumentasi OpenAPI dibuat dari skema Zod yang sama dengan validasi
 - ESLint + Prettier
 
 Frontend (`frontend/`):
@@ -25,7 +25,7 @@ Frontend (`frontend/`):
 - `fetch` bawaan lewat satu wrapper API
 - ESLint + Prettier, `vue-tsc`
 
-Infra: Docker + docker-compose (db + app).
+Infra: docker-compose (service `db` saja; `Dockerfile` dan service `app` menyusul di fase Docker).
 
 ## Repo map
 
@@ -43,13 +43,13 @@ Infra: Docker + docker-compose (db + app).
 - `frontend/src/views/`: halaman (Login, Register, Tasks, TaskForm)
 - `frontend/src/components/`: komponen UI bersama (loading, error, pagination)
 - `docs/`: dokumentasi
-- root: `Dockerfile`, `docker-compose.yml`, `README.md`, `AGENTS.md`
+- root: `docker-compose.yml`, `README.md`, `AGENTS.md`
 
 Pola backend: route -> controller (HTTP saja) -> service (logika bisnis + Prisma).
 
 ## How to run locally
 
-Development (dua proses):
+Development (tiga proses: db, backend, frontend):
 
 ```bash
 # 1. Database
@@ -59,8 +59,8 @@ docker compose up -d db
 cd backend
 npm install
 cp .env.example .env          # isi JWT_SECRET dan TEACHER_REGISTRATION_CODE
-npx prisma generate
-npx prisma migrate dev
+npm run db:generate
+npm run db:migrate:dev        # memakai prisma/prisma.config.ts lewat script
 npm run db:seed
 npm run dev
 
@@ -70,18 +70,13 @@ npm install
 npm run dev
 ```
 
-Semua dalam Docker (satu origin di http://localhost:3000):
+Menjalankan semua dalam Docker (satu origin di http://localhost:3000) belum bisa:
+`Dockerfile` dan service `app` belum ada — menyusul di fase Docker (spec bagian 12, poin 15).
 
-```bash
-docker compose up --build
-docker compose exec app npm run db:seed
-```
+Test backend: `cd backend && npm test` (belum ada file test — `backend/tests/` masih kosong,
+perintah ini keluar dengan `No test files found` sampai fase test dijalankan).
 
-Test backend: `cd backend && npm test`.
-
-Dokumentasi API: Swagger UI di `http://localhost:3000/api/docs`, dokumen mentah di `http://localhost:3000/api/openapi.json`.
-
-(Bagian ini diperbarui oleh agent saat script benar-benar ada.)
+Dokumentasi API (Scalar) di `http://localhost:3000/api/docs` (juga `/docs`), dokumen mentah di `http://localhost:3000/api/openapi.json`.
 
 ## Docs index
 
