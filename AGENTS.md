@@ -1,4 +1,4 @@
-> Last verified: 2026-11-09 against commit 945f990
+> Last verified: 2026-11-09 against commit 6373b73
 
 # Rules
 

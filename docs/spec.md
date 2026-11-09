@@ -1,4 +1,4 @@
-> Last verified: 2026-11-09 against commit 80dcde2
+> Last verified: 2026-11-09 against commit 6373b73
 
 # Spec: Class Task Tracker
 
