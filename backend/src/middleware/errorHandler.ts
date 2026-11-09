@@ -2,6 +2,7 @@ import type { ErrorRequestHandler } from 'express';
 import { AppError } from '../utils/errors.js';
 import { error } from '../utils/response.js';
 import { env } from '../config/env.js';
+import { logger } from '../utils/logger.js';
 
 interface PrismaKnownError {
   code?: string;
@@ -45,7 +46,7 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
     return;
   }
 
-  console.error(err);
+  logger.error({ err }, 'Unhandled error');
 
   if (env.NODE_ENV === 'development') {
     error(res, 500, 'INTERNAL_ERROR', 'Internal server error', {
