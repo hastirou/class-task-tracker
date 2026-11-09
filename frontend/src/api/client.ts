@@ -45,7 +45,9 @@ const request = async <T>(path: string, options: RequestInit = {}): Promise<T> =
   const body = await res.json();
 
   if (!res.ok) {
-    if (res.status === 401) {
+    // Only redirect on 401 for non-auth endpoints (expired/invalid token).
+    // Auth endpoints (login/register) should show the error, not reload the page.
+    if (res.status === 401 && !path.startsWith('/auth/')) {
       clearToken();
       // SAFETY: hardcoded path, not user-controlled — no open redirect risk
       window.location.assign('/login');

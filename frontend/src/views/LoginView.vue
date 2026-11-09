@@ -47,7 +47,7 @@ const submit = async () => {
 
       <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
 
-      <button type="submit" :disabled="loading">
+      <button type="submit" class="btn btn-primary" :disabled="loading">
         {{ loading ? 'Memproses…' : 'Masuk' }}
       </button>
     </form>
