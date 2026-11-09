@@ -22,7 +22,7 @@ const AuthSuccessSchema = z
 
 registry.registerPath({
   method: 'post',
-  path: '/api/v1/auth/register',
+  path: '/auth/register',
   summary: 'Register a new user',
   tags: ['Auth'],
   request: {
@@ -56,7 +56,7 @@ registry.registerPath({
 
 registry.registerPath({
   method: 'post',
-  path: '/api/v1/auth/login',
+  path: '/auth/login',
   summary: 'Log in',
   tags: ['Auth'],
   request: {
@@ -90,7 +90,7 @@ registry.registerPath({
 
 registry.registerPath({
   method: 'get',
-  path: '/api/v1/auth/me',
+  path: '/auth/me',
   summary: 'Get current user profile',
   tags: ['Auth'],
   security: [{ bearerAuth: [] }],

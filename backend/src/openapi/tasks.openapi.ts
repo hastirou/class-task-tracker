@@ -32,7 +32,7 @@ const bearer = [{ bearerAuth: [] as string[] }];
 
 registry.registerPath({
   method: 'post',
-  path: '/api/v1/tasks',
+  path: '/tasks',
   summary: 'Create a task (TEACHER only)',
   tags: ['Tasks'],
   security: bearer,
@@ -71,7 +71,7 @@ registry.registerPath({
 
 registry.registerPath({
   method: 'get',
-  path: '/api/v1/tasks',
+  path: '/tasks',
   summary: 'List tasks',
   tags: ['Tasks'],
   security: bearer,
@@ -100,7 +100,7 @@ registry.registerPath({
 
 registry.registerPath({
   method: 'get',
-  path: '/api/v1/tasks/{id}',
+  path: '/tasks/{id}',
   summary: 'Get task by ID',
   tags: ['Tasks'],
   security: bearer,
@@ -135,7 +135,7 @@ registry.registerPath({
 
 registry.registerPath({
   method: 'put',
-  path: '/api/v1/tasks/{id}',
+  path: '/tasks/{id}',
   summary: 'Update a task (TEACHER owner only)',
   tags: ['Tasks'],
   security: bearer,
@@ -177,7 +177,7 @@ registry.registerPath({
 
 registry.registerPath({
   method: 'delete',
-  path: '/api/v1/tasks/{id}',
+  path: '/tasks/{id}',
   summary: 'Delete a task (TEACHER owner only)',
   tags: ['Tasks'],
   security: bearer,
@@ -207,7 +207,7 @@ registry.registerPath({
 
 registry.registerPath({
   method: 'post',
-  path: '/api/v1/tasks/{id}/complete',
+  path: '/tasks/{id}/complete',
   summary: 'Mark task as complete (STUDENT only)',
   tags: ['Tasks'],
   security: bearer,
@@ -237,7 +237,7 @@ registry.registerPath({
 
 registry.registerPath({
   method: 'delete',
-  path: '/api/v1/tasks/{id}/complete',
+  path: '/tasks/{id}/complete',
   summary: 'Undo task completion (STUDENT only)',
   tags: ['Tasks'],
   security: bearer,
